@@ -19,9 +19,7 @@ public class PersonagemDAO {
 				+ personagemVO.getNome() + ", "
 				+ personagemVO.getDano() + ", "
 				+ personagemVO.getVida() + ", "
-				+ personagemVO.getClasse().getCdClasse() + ", "
-				+ personagemVO.getItem().getCdequipamento() + ", "
-				+ personagemVO.getPoder().getCdpoder() + ", "		
+				+ personagemVO.getClasse().getCdClasse() + ", "		
 				+ personagemVO.getExpAtual() + ")";
 		try {
 			int resultado = stmt.executeUpdate(query);

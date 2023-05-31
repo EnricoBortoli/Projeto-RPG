@@ -3,14 +3,6 @@ CREATE DATABASE DBJOGO;
 
 USE DBJOGO;
 
-CREATE TABLE EQUIPAMENTO(
-	CDEQUIPAMENTO INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	NOME VARCHAR(30),
-	TPEQUIPAMENTO CHAR(1),
-	DESCRICAO VARCHAR(255),
-	BONUS INT,
-	FLEQUIPADO CHAR(1)
-);
 
 CREATE TABLE CLASSE(
 	CDCLASSE INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -20,11 +12,20 @@ CREATE TABLE CLASSE(
 	VIDAMOD INT
 );
 
+CREATE TABLE EQUIPAMENTO(
+	CDEQUIPAMENTO INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	NOME VARCHAR(30),
+	TPEQUIPAMENTO CHAR(1),
+	DESCRICAO VARCHAR(255),
+	BONUS INT,
+    CDCLASSE INT, FOREIGN KEY (CDCLASSE) REFERENCES CLASSE (CDCLASSE)
+);
+
 CREATE TABLE PODER(
 	CDPODER INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	NOME VARCHAR(30),
 	DESCRICAO VARCHAR(255),
-	FLEQUIPADO CHAR(1),
+    BONUS INT,
     CDCLASSE INT, FOREIGN KEY (CDCLASSE) REFERENCES CLASSE (CDCLASSE)
 );
 
@@ -34,9 +35,25 @@ CREATE TABLE PERSONAGEM(
     DANO INT,
     VIDA INT,
     CDCLASSE INT, FOREIGN KEY (CDCLASSE) REFERENCES CLASSE (CDCLASSE),
-    CDEQUIPAMENTO INT, FOREIGN KEY (CDEQUIPAMENTO) REFERENCES EQUIPAMENTO (CDEQUIPAMENTO),
-    CDPODER INT, FOREIGN KEY (CDPODER) REFERENCES PODER (CDPODER),
     EXPATUAL INT
+);
+
+CREATE TABLE PODERPESONAGEM(
+	IDPODERPESONAGEM INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    CDPERSONAGEM INT NOT NULL,
+    CDPODER INT NOT NULL,
+	FLEQUIPADO VARCHAR(1),
+    FOREIGN KEY (CDPERSONAGEM) REFERENCES PERSONAGEM (CDPERSONAGEM),
+    FOREIGN KEY (CDPODER) REFERENCES PODER (CDPODER)
+);
+
+CREATE TABLE EQUIPAMENTOPESONAGEM(
+	IDEQUIPAMENTOPESONAGEM INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    CDPERSONAGEM INT NOT NULL,
+    CDEQUIPAMENTO INT NOT NULL,
+	FLEQUIPADO VARCHAR(1),
+    FOREIGN KEY (CDPERSONAGEM) REFERENCES PERSONAGEM (CDPERSONAGEM),
+    FOREIGN KEY (CDEQUIPAMENTO) REFERENCES EQUIPAMENTO (CDEQUIPAMENTO)
 );
 
 CREATE TABLE REGIAO(
@@ -53,25 +70,36 @@ CREATE TABLE REGIAOPERSONAGEM (
     FLVISITADO CHAR
 );
 
-INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS) 
-	VALUES ('Espada', 'A' , "Espada longa de lamina dupla", 20);
-INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS) 
-	VALUES ('Maça', 'A' , "Maça estrela de aço", 25);
-INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS) 
-	VALUES ('Armadura Media', 'E' , "Feita de metal e couro", 30);
-INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS) 
-	VALUES ('Robe de conjurador', 'E' , "Um robe que parece encantado", 30);
-
 INSERT INTO CLASSE (NOME, DESCRICAO, DANOMOD, VIDAMOD) 
 	VALUES ("Paladino", "O Paladino é um guerreiro divino que usa suas habilidades sagradas para proteger seus aliados e eliminar seus inimigos.", 15, 50);
 INSERT INTO CLASSE (NOME, DESCRICAO, DANOMOD, VIDAMOD) 
-	VALUES ("Paladino", "O Mago é um mestre das artes arcanas que pode invocar poderosos feitiços para combater seus adversários e manipular a realidade.", 10, 30);
+	VALUES ("Mago", "O Mago é um mestre das artes arcanas que pode invocar poderosos feitiços para combater seus adversários e manipular a realidade.", 10, 30);
 
-INSERT INTO PODER (NOME, DESCRICAO, CDCLASSE) 
-	VALUES ("Golpe de Fé", "Imbuido sua arma com o poder de sua fé inabalavel: +30 de Dano no ataque", 1);
-INSERT INTO PODER (NOME, DESCRICAO, CDCLASSE) 
-	VALUES ("Cura Sagrada", "Suas mãos brilhão com um energia revitalizadora: +25 de vida", 1);
-INSERT INTO PODER (NOME, DESCRICAO, CDCLASSE) 
-	VALUES ("Raio de Fogo", "Dispara uma bola de fogo que viaja até seu alvo: 60 de dano", 2);
-INSERT INTO PODER (NOME, DESCRICAO, CDCLASSE) 
-	VALUES ("Toque Chocante", "Suas mãos se carregam com energia, descarregando ao toque: 40 de dano", 2);
+INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ('Espada', 'A' , "Espada longa de lamina dupla: +20 de dano de ataque ", 20, 1);
+INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ('Maça', 'A' , "Maça estrela de aço: +25 de dano de ataque", 25, 1) ;
+INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ('Varinha', 'A' , "Um foco arcano: +25 de poder de ataque", 25, 2) ;
+INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ('Armadura Media', 'E' , "Feita de metal e couro: +30 pontos de vida", 30, 1);
+INSERT INTO EQUIPAMENTO (NOME, TPEQUIPAMENTO, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ('Robe de conjurador', 'E' , "Um robe que parece encantado: +30 pontos de vida", 30, 2);
+
+INSERT INTO PODER (NOME, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ("Golpe de Fé", "Imbuido sua arma com o poder de sua fé inabalavel: +30 pontos de dano no proximo ataque", 30, 1);
+INSERT INTO PODER (NOME, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ("Cura Sagrada", "Suas mãos brilhão com um energia revitalizadora: recupersa 25 pontos de vida",25, 1);
+INSERT INTO PODER (NOME, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ("Raio de Fogo", "Dispara uma bola de fogo que viaja até seu alvo: +60 pontos de dano no proximo ataque",60, 2);
+INSERT INTO PODER (NOME, DESCRICAO, BONUS, CDCLASSE) 
+	VALUES ("Toque Chocante", "Suas mãos se carregam com energia, descarregando ao toque: +40 pontos de dano no proximo ataque",40, 2);
+    
+SELECT * FROM CLASSE;
+SELECT * FROM PODER;
+SELECT * FROM EQUIPAMENTO;
+
+SELECT  E.* FROM EQUIPAMENTO E JOIN CLASSE C ON E.CDCLASSE = C.CDCLASSE WHERE C.CDCLASSE = 1;
+
+
+

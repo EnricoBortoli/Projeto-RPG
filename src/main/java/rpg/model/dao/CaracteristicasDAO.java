@@ -29,15 +29,15 @@ public class CaracteristicasDAO {
 			resultado = stmt.executeQuery(query);
 			while(resultado.next()) {
 				ClasseVO classe = new ClasseVO();
-				classe.setCdClasse(Integer.parseInt(resultado.getString(0)));
-				classe.setNome(resultado.getString(1));
-				classe.setDescricao(resultado.getString(2));
-				classe.setDanoMod(Integer.parseInt(resultado.getString(3)));
-				classe.setVidaMod(Integer.parseInt(resultado.getString(4)));
+				classe.setCdClasse(Integer.parseInt(resultado.getString(1)));
+				classe.setNome(resultado.getString(2));
+				classe.setDescricao(resultado.getString(3));
+				classe.setDanoMod(Integer.parseInt(resultado.getString(4)));
+				classe.setVidaMod(Integer.parseInt(resultado.getString(5)));
 				listaClasses.add(classe);
 			}
 		} catch (Exception e) {
-			System.out.println("Erro ao executar a query do método consultarTodosProdutosVigentesDAO!");
+			System.out.println("Erro ao executar a query do método consultarTodasClassesDAO!");
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			Banco.closeResultSet(resultado);
@@ -47,29 +47,28 @@ public class CaracteristicasDAO {
 		return listaClasses;
 	}
 
-	public ArrayList<EquipamentoVO> consultarEquipamentosDaClasseDAO(ClasseVO classeVO){
+	public ArrayList<EquipamentoVO> consultarEquipamentosDaClasseDAO(int cdClasse){
 		Connection conn = Banco.getConnection();
 		Statement stmt = Banco.getStatement(conn);
 		ResultSet resultado = null;
 		ArrayList<EquipamentoVO> listaEquipamento = new ArrayList<EquipamentoVO>();
 		
 		String query = "SELECT  E.* FROM EQUIPAMENTO E JOIN CLASSE C ON E.CDCLASSE = C.CDCLASSE "
-				+ "WHERE C.CDCLASSE = " + classeVO.getCdClasse();
+				+ "WHERE C.CDCLASSE = " + cdClasse;
 		
 		try {
 			resultado = stmt.executeQuery(query);
 			while(resultado.next()) {
 				EquipamentoVO equipamento = new EquipamentoVO();
-				equipamento.setCdEquipamento(Integer.parseInt(resultado.getString(0)));
-				equipamento.setNome(resultado.getString(1));
-				equipamento.setTpEquipamento(resultado.getString(2));
-				equipamento.setDescricao(resultado.getString(3));
-				equipamento.setBonus(Integer.parseInt(resultado.getString(4)));
-				equipamento.setFlEquipado(resultado.getString(5));
+				equipamento.setCdEquipamento(Integer.parseInt(resultado.getString(1)));
+				equipamento.setNome(resultado.getString(2));
+				equipamento.setTpEquipamento(resultado.getString(3));
+				equipamento.setDescricao(resultado.getString(4));
+				equipamento.setBonus(Integer.parseInt(resultado.getString(5)));
 				listaEquipamento.add(equipamento);
 			}
 		} catch (Exception e) {
-			System.out.println("Erro ao executar a query do método consultarTodosProdutosVigentesDAO!");
+			System.out.println("Erro ao executar a query do método consultarEquipamentosDaClasseDAO!");
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			Banco.closeResultSet(resultado);
@@ -79,24 +78,23 @@ public class CaracteristicasDAO {
 		return listaEquipamento;
 	}
 	
-	public ArrayList<PoderVO> consultarPoderesDaClasseDAO(ClasseVO classeVO){
+	public ArrayList<PoderVO> consultarPoderesDaClasseDAO(int cdClasse){
 		Connection conn = Banco.getConnection();
 		Statement stmt = Banco.getStatement(conn);
 		ResultSet resultado = null;
 		ArrayList<PoderVO> listaPoder = new ArrayList<PoderVO>();
 		
 		String query = "SELECT  P.* FROM PODER P JOIN CLASSE C ON P.CDCLASSE = C.CDCLASSE "
-				+ "WHERE C.CDCLASSE = " + classeVO.getCdClasse();
+				+ "WHERE C.CDCLASSE = " + cdClasse;
 		
 		try {
 			resultado = stmt.executeQuery(query);
 			while(resultado.next()) {
 				PoderVO poder = new PoderVO();
-				poder.cdPoder(Integer.parseInt(resultado.getString(0)));
-				poder.setNome(resultado.getString(1));
+				poder.setCdPoder(Integer.parseInt(resultado.getString(1)));
+				poder.setNome(resultado.getString(2));
 				poder.setDescricao(resultado.getString(3));
 				poder.setBonus(Integer.parseInt(resultado.getString(4)));
-				poder.setFlEquipado(resultado.getString(5));
 				listaPoder.add(poder);
 			}
 		} catch (Exception e) {

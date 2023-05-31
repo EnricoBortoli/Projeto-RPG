@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import rpg.model.vo.ClasseVO;
 import rpg.model.vo.EquipamentoVO;
 import rpg.model.vo.PersonagemVO;
+import rpg.view.paineis.PainelCriacao;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -17,10 +18,20 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class MenuPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	private PainelCriacao PainelCriacao;
+	private JButton btnContinuar;
+	private JMenuBar menuBar;
 
 	/**
 	 * Launch the application.
@@ -47,49 +58,82 @@ public class MenuPrincipal extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnPersonagem = new JMenu("Personagem");
+		menuBar.add(mnPersonagem);
+		menuBar.setVisible(false);
+		
+		JMenuItem mntmCaracteristicas = new JMenuItem("Caracteristicas");
+		mnPersonagem.add(mntmCaracteristicas);
+		
+		JMenuItem mntmMochila = new JMenuItem("Mochila");
+		mnPersonagem.add(mntmMochila);
+		
+		JMenuItem mntmPoderes = new JMenuItem("Poderes");
+		mnPersonagem.add(mntmPoderes);
+		
+		JMenu mnMapa = new JMenu("Mapa");
+		menuBar.add(mnMapa);
+		
+		JMenuItem mntmMapaRegiao = new JMenuItem("Mapa Regional");
+		mnMapa.add(mntmMapaRegiao);
 		setContentPane(contentPane);
 		
 		setTitle("Menu Inicial");
-		setResizable(false);
-		getContentPane().setLayout(null);
+		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("82px"),
+				ColumnSpec.decode("77px"),
+				ColumnSpec.decode("28px"),
+				ColumnSpec.decode("56px"),
+				ColumnSpec.decode("105px"),},
+			new RowSpec[] {
+				RowSpec.decode("30px"),
+				RowSpec.decode("32px"),
+				FormSpecs.UNRELATED_GAP_ROWSPEC,
+				RowSpec.decode("14px"),
+				FormSpecs.PARAGRAPH_GAP_ROWSPEC,
+				RowSpec.decode("53px"),
+				FormSpecs.UNRELATED_GAP_ROWSPEC,
+				RowSpec.decode("23px"),}));
 				
 		JLabel lblPrincipal = new JLabel("Bem vindo ao Joguinho");
 		lblPrincipal.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblPrincipal.setBounds(109, 30, 215, 32);
-		getContentPane().add(lblPrincipal);
+		getContentPane().add(lblPrincipal, "2, 2, 4, 1, center, fill");
 				
 		JLabel lblOpcoes = new JLabel("Escolha uma opção:");
 		lblOpcoes.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblOpcoes.setBounds(159, 73, 116, 14);
-		getContentPane().add(lblOpcoes);
+		getContentPane().add(lblOpcoes, "3, 4, 3, 1, left, top");
 				
 		JLabel lblIconPergaminho = new JLabel("");
 		lblIconPergaminho.setIcon(new ImageIcon("C:\\Users\\Necronomicon Digital\\eclipse-workspace\\Projeto_Jogo\\src\\main\\resources\\img\\pergaminho.png"));
-		lblIconPergaminho.setBounds(109, 104, 50, 53);
-		getContentPane().add(lblIconPergaminho);
+		getContentPane().add(lblIconPergaminho, "2, 6, right, fill");
 				
 		JLabel lblIconEspada = new JLabel("");
 		lblIconEspada.setIcon(new ImageIcon("C:\\Users\\Necronomicon Digital\\eclipse-workspace\\Projeto_Jogo\\src\\main\\resources\\img\\espada.png"));
-		lblIconEspada.setBounds(268, 104, 55, 53);
-		getContentPane().add(lblIconEspada);
+		getContentPane().add(lblIconEspada, "5, 6, center, fill");
 				
-		JButton btnContinuar = new JButton("Continuar");
+		btnContinuar = new JButton("Continuar");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnContinuar.setBounds(82, 168, 105, 23);
-		getContentPane().add(btnContinuar);
-				
+		getContentPane().add(btnContinuar, "2, 8, 2, 1, fill, top");
+		
+		PainelCriacao = new PainelCriacao();
+		
 		JButton btnNovoSave = new JButton("Nova aventura");
 		btnNovoSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MenuCriacao criacao = new MenuCriacao();
-				criacao.setVisible(true);
+				setContentPane(PainelCriacao);
+				revalidate();
 			}
 		});
-		btnNovoSave.setBounds(243, 168, 105, 23);
-		getContentPane().add(btnNovoSave);
+		
+		
+		getContentPane().add(btnNovoSave, "5, 8, left, top");
 	}
 	}
 

@@ -86,8 +86,8 @@ public class ClasseVO {
 
 	@Override
 	public String toString() {
-		return "Nome: " + nome + "\nDescricao: " + descricao + "\nModificador de dano" + danoMod
-				+ "\nModificador de vida: " + vidaMod;
+		return "Classe: " + nome + "\nDescricao: " + descricao + "\nDano base: " + danoMod
+				+ "\nVida base: " + vidaMod;
 	}
 	
 }

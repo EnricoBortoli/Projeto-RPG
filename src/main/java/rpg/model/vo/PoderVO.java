@@ -4,16 +4,14 @@ public class PoderVO {
 	private int cdPoder;
 	private String nome;
 	private String descricao;
-	private String flEquipado;
-	private ClasseVO classe;
+	private int bonus;
 	
-	public PoderVO(int cdPoder, String nome, String descricao, String flEquipado, ClasseVO classe) {
+	public PoderVO(int cdPoder, String nome, String descricao, int bonus) {
 		super();
 		this.cdPoder = cdPoder;
 		this.nome = nome;
 		this.descricao = descricao;
-		this.flEquipado = flEquipado;
-		this.classe = classe;
+		this.bonus = bonus;
 	}
 
 	public PoderVO() {
@@ -24,7 +22,7 @@ public class PoderVO {
 		return cdPoder;
 	}
 
-	public void cdPoder(int cdPoder) {
+	public void setCdPoder(int cdPoder) {
 		this.cdPoder = cdPoder;
 	}
 
@@ -44,33 +42,17 @@ public class PoderVO {
 		this.descricao = descricao;
 	}
 
-	public String getFlEquipado() {
-		return flEquipado;
+	public int getBonus() {
+		return bonus;
 	}
 
-	public void setFlEquipado(String flEquipado) {
-		this.flEquipado = flEquipado;
-	}
-	
-	public ClasseVO getClasse() {
-		return classe;
-	}
-
-	public void setClasse(ClasseVO classe) {
-		this.classe = classe;
+	public void setBonus(int bonus) {
+		this.bonus = bonus;
 	}
 
 	@Override
 	public String toString() {
-		return "Poder: " + cdPoder + "\nNome: " + nome + "\nDescricao: " + descricao + "\nEquipado: "
-				+ flEquipado;
+		return "Poder: " + nome + "\nDescrição: " + descricao;
 	}
-	
-//	public void listarEfeitos() {
-//		for(int i = 0; i < listaEfeito.length; i++) {
-//			System.out.println("-------- Lista de Efeitos --------");
-//			listaEfeito[i].toString();
-//		}
-//	}
 	
 }
