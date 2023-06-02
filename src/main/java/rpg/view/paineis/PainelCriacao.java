@@ -105,6 +105,7 @@ public class PainelCriacao extends JPanel {
     	for (ClasseVO classe : listaClasses) {
     		cbxClasse.addItem(classe.getNome());
     	}
+    	cbxClasse.setSelectedItem(null);
 		
 		JLabel lblEquipamento = new JLabel("Equipamento: ");
 		add(lblEquipamento, "4, 12, right, default");
@@ -124,9 +125,7 @@ public class PainelCriacao extends JPanel {
 		        cbxPoder.removeAllItems();
 		        cbxEquipamento.setSelectedIndex(-1);
 		        cbxPoder.setSelectedIndex(-1);
-//		        String defaultClasse = " ";
-//				cbxClasse.setSelectedItem(defaultClasse);
-		        
+		        	        
 		        for (ClasseVO classe : listaClasses) {
 		            if (classe.getNome().equals(cbxClasse.getSelectedItem())) {
 		                classeEscolhida = classe;
@@ -136,11 +135,13 @@ public class PainelCriacao extends JPanel {
 		        listaEquipamentos = caracteristicasController.ConsultaEquipamentoPorClasseController(classeEscolhida.getCdClasse());
 		        for (EquipamentoVO equipamento : listaEquipamentos) {
 		            cbxEquipamento.addItem(equipamento.getNome());
+		            cbxEquipamento.setSelectedItem(null);
 		        }
 		        
 		        listaPoderes = caracteristicasController.ConsultaPoderPorClasseController(classeEscolhida.getCdClasse());
 		        for (PoderVO poder : listaPoderes) {
 		        	cbxPoder.addItem(poder.getNome());
+		        	cbxPoder.setSelectedItem(null);
 		        }
 		        
 		    }
@@ -194,5 +195,43 @@ public class PainelCriacao extends JPanel {
 		add(btnSalvar, "6, 20, right, default");
 
 	}
+
+	public JTextField getTfNome() {
+		return tfNome;
+	}
+
+	public JButton getBtnSalvar() {
+		return btnSalvar;
+	}
+
+	public void setBtnSalvar(JButton btnSalvar) {
+		this.btnSalvar = btnSalvar;
+	}
+
+	public ClasseVO getClasseEscolhida() {
+		return classeEscolhida;
+	}
+
+	public void setClasseEscolhida(ClasseVO classeEscolhida) {
+		this.classeEscolhida = classeEscolhida;
+	}
+
+	public EquipamentoVO getEquipamentoEscolhido() {
+		return equipamentoEscolhido;
+	}
+
+	public void setEquipamentoEscolhido(EquipamentoVO equipamentoEscolhido) {
+		this.equipamentoEscolhido = equipamentoEscolhido;
+	}
+
+	public PoderVO getPoderEscolhido() {
+		return poderEscolhido;
+	}
+
+	public void setPoderEscolhido(PoderVO poderEscolhido) {
+		this.poderEscolhido = poderEscolhido;
+	}
+	
+	
 
 }

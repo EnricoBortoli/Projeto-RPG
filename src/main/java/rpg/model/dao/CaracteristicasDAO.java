@@ -107,4 +107,54 @@ public class CaracteristicasDAO {
 		}
 		return listaPoder;
 	}
+
+	public boolean cadastroItensPersonagem(EquipamentoVO equipamento, int cdPersonagem) {
+		
+		    Connection conn = Banco.getConnection();
+		    Statement stmt = Banco.getStatement(conn);
+		    boolean retorno = false;
+		    
+		    String query = "INSERT INTO EQUIPAMENTOPESONAGEM (CDPERSONAGEM, CDEQUIPAMENTO, FLEQUIPADO) VALUES ('"
+		            + cdPersonagem+ "', "
+		            + equipamento.getCdEquipamento() + ", "
+		            + "'S')";
+		    try {
+		    	int resultado = stmt.executeUpdate(query);
+				if(resultado == 1) {
+					retorno = true;
+				}
+		    } catch (SQLException e) {
+		        System.out.println("Erro ao executar a query do método cadastroItensPersonagem!");
+		        System.out.println("Erro: " + e.getMessage());
+		    }finally {
+		        Banco.closeStatement(stmt);
+		        Banco.closeConnection(conn);
+		    }
+		    return retorno;
+	}
+	
+	public boolean cadastroPoderesPersonagem(PoderVO poder, int cdPersonagem) {
+		
+	    Connection conn = Banco.getConnection();
+	    Statement stmt = Banco.getStatement(conn);
+	    boolean retorno = false;
+	    
+	    String query = "INSERT INTO PODERPESONAGEM (CDPERSONAGEM, CDPODER, FLEQUIPADO) VALUES ('"
+	            + cdPersonagem+ "', "
+	            + poder.getCdPoder() + ", "
+	            + "'S')";
+	    try {
+	    	int resultado = stmt.executeUpdate(query);
+			if(resultado == 1) {
+				retorno = true;
+			}
+	    } catch (SQLException e) {
+	        System.out.println("Erro ao executar a query do método cadastroPoderesPersonagem!");
+	        System.out.println("Erro: " + e.getMessage());
+	    }finally {
+	        Banco.closeStatement(stmt);
+	        Banco.closeConnection(conn);
+	    }
+	    return retorno;
+}
 }

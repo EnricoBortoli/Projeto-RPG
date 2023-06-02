@@ -4,10 +4,15 @@ import java.awt.EventQueue;
 import java.util.Scanner;
 import javax.swing.JFrame;
 
+import rpg.controller.PersonagemController;
+import rpg.model.exception.CampoInvalidoException;
+import rpg.model.exception.personagemMaximosException;
 import rpg.model.vo.ClasseVO;
 import rpg.model.vo.EquipamentoVO;
 import rpg.model.vo.PersonagemVO;
 import rpg.view.paineis.PainelCriacao;
+import rpg.view.paineis.PainelPrincipal;
+
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -25,13 +30,17 @@ import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class MenuPrincipal extends JFrame {
 
 	private JPanel contentPane;
-	private PainelCriacao PainelCriacao;
+	private PainelCriacao painelCriacao;
 	private JButton btnContinuar;
 	private JMenuBar menuBar;
+	private PersonagemVO novoPersonagem;
+	private PersonagemVO mainPersonagem;
+	private PersonagemController personagemController;
 
 	/**
 	 * Launch the application.
@@ -122,19 +131,41 @@ public class MenuPrincipal extends JFrame {
 		});
 		getContentPane().add(btnContinuar, "2, 8, 2, 1, fill, top");
 		
-		PainelCriacao = new PainelCriacao();
+		painelCriacao = new PainelCriacao();
+		painelCriacao.getBtnSalvar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				novoPersonagem = new PersonagemVO();
+				novoPersonagem.setNome(painelCriacao.getTfNome().getText());
+				novoPersonagem.setClasse(painelCriacao.getClasseEscolhida());
+				novoPersonagem.getEquipamentosDoPersonagem().add(painelCriacao.getEquipamentoEscolhido());
+				novoPersonagem.getPoderesDoPersonagem().add(painelCriacao.getPoderEscolhido());
+				try {
+					personagemController = new PersonagemController();
+					mainPersonagem = personagemController.cadastraPersonagem(novoPersonagem);
+					JOptionPane.showMessageDialog(null, "Personagem cadastrado com sucesso!");
+					PainelPrincipal painelPrincipal = new PainelPrincipal();
+					setContentPane(painelPrincipal);
+					revalidate();
+				}catch(CampoInvalidoException | personagemMaximosException exception) {
+					JOptionPane.showMessageDialog(null, exception.getMessage());
+				}
+			}
+		});
 		
 		JButton btnNovoSave = new JButton("Nova aventura");
 		btnNovoSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setContentPane(PainelCriacao);
+				setContentPane(painelCriacao);
 				revalidate();
 			}
 		});
 		
-		
 		getContentPane().add(btnNovoSave, "5, 8, left, top");
 	}
+	
+		public void limparTela(){
+			
+		}
 	}
 
 

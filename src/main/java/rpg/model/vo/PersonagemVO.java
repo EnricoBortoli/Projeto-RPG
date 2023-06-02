@@ -1,5 +1,7 @@
 package rpg.model.vo;
 
+import java.util.ArrayList;
+
 import rpg.util.ModeloPersonagem;
 
 public class PersonagemVO extends ModeloPersonagem {
@@ -7,12 +9,17 @@ public class PersonagemVO extends ModeloPersonagem {
 	private int cdPersonagem;
 	private ClasseVO classe;
 	private int expAtual;
+	private ArrayList<EquipamentoVO> equipamentosDoPersonagem = new ArrayList<EquipamentoVO>();
+	private ArrayList<PoderVO> poderesDoPersonagem = new ArrayList<PoderVO>();
 	
-	public PersonagemVO(String nome, int dano, int vida, int cdPersonagem, ClasseVO classe, int expAtual) {
+	public PersonagemVO(String nome, int dano, int vida, int cdPersonagem, ClasseVO classe, int expAtual,
+			ArrayList<EquipamentoVO> equipamentosDoPersonagem, ArrayList<PoderVO> poderesDoPersonagem) {
 		super(nome, dano, vida);
 		this.cdPersonagem = cdPersonagem;
 		this.classe = classe;
 		this.expAtual = expAtual;
+		this.equipamentosDoPersonagem = equipamentosDoPersonagem;
+		this.poderesDoPersonagem = poderesDoPersonagem;
 	}
 
 	public PersonagemVO() {
@@ -43,16 +50,20 @@ public class PersonagemVO extends ModeloPersonagem {
 		this.expAtual = expAtual;
 	}
 
-	@Override
-	public String toString() {
-		return "Classe: " + classe + "\nXP Total: " + expAtual;
+	public ArrayList<EquipamentoVO> getEquipamentosDoPersonagem() {
+		return equipamentosDoPersonagem;
 	}
-	
-	
-	
-	
-	
-	
 
+	public void setEquipamentosDoPersonagem(ArrayList<EquipamentoVO> equipamentosDoPersonagem) {
+		this.equipamentosDoPersonagem = equipamentosDoPersonagem;
+	}
+
+	public ArrayList<PoderVO> getPoderesDoPersonagem() {
+		return poderesDoPersonagem;
+	}
+
+	public void setPoderesDoPersonagem(ArrayList<PoderVO> poderesDoPersonagem) {
+		this.poderesDoPersonagem = poderesDoPersonagem;
+	}
 	
 }
