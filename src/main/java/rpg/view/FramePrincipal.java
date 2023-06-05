@@ -10,6 +10,7 @@ import rpg.model.exception.personagemMaximosException;
 import rpg.model.vo.ClasseVO;
 import rpg.model.vo.EquipamentoVO;
 import rpg.model.vo.PersonagemVO;
+import rpg.view.paineis.PainelContinuar;
 import rpg.view.paineis.PainelCriacao;
 import rpg.view.paineis.PainelPrincipal;
 
@@ -32,7 +33,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class MenuPrincipal extends JFrame {
+public class FramePrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private PainelCriacao painelCriacao;
@@ -41,6 +42,8 @@ public class MenuPrincipal extends JFrame {
 	private PersonagemVO novoPersonagem;
 	private PersonagemVO mainPersonagem;
 	private PersonagemController personagemController;
+	private PainelContinuar painelContinuar;
+	private PainelPrincipal painelPrincipal;
 
 	/**
 	 * Launch the application.
@@ -49,7 +52,7 @@ public class MenuPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MenuPrincipal frame = new MenuPrincipal();
+					FramePrincipal frame = new FramePrincipal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,9 +64,9 @@ public class MenuPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MenuPrincipal() {
+	public FramePrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 650, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
@@ -117,22 +120,37 @@ public class MenuPrincipal extends JFrame {
 		getContentPane().add(lblOpcoes, "3, 4, 3, 1, left, top");
 				
 		JLabel lblIconPergaminho = new JLabel("");
-		lblIconPergaminho.setIcon(new ImageIcon("C:\\Users\\Necronomicon Digital\\eclipse-workspace\\Projeto_Jogo\\src\\main\\resources\\img\\pergaminho.png"));
+		lblIconPergaminho.setIcon(new ImageIcon());
 		getContentPane().add(lblIconPergaminho, "2, 6, right, fill");
 				
 		JLabel lblIconEspada = new JLabel("");
-		lblIconEspada.setIcon(new ImageIcon("C:\\Users\\Necronomicon Digital\\eclipse-workspace\\Projeto_Jogo\\src\\main\\resources\\img\\espada.png"));
+		lblIconEspada.setIcon(new ImageIcon());
 		getContentPane().add(lblIconEspada, "5, 6, center, fill");
-				
+		
+		painelContinuar = new PainelContinuar();
+		painelPrincipal = new PainelPrincipal();
+		painelCriacao = new PainelCriacao();
+		
+		painelContinuar.getBtnSelecionar().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainPersonagem = (PersonagemVO) painelContinuar.getCbxPersonagens().getSelectedItem();
+				setContentPane(painelPrincipal);
+				revalidate();
+			}
+		});
+		
 		btnContinuar = new JButton("Continuar");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setContentPane(painelContinuar);
+				revalidate();
 			}
 		});
 		getContentPane().add(btnContinuar, "2, 8, 2, 1, fill, top");
 		
-		painelCriacao = new PainelCriacao();
+		
 		painelCriacao.getBtnSalvar().addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				novoPersonagem = new PersonagemVO();
 				novoPersonagem.setNome(painelCriacao.getTfNome().getText());
@@ -143,7 +161,6 @@ public class MenuPrincipal extends JFrame {
 					personagemController = new PersonagemController();
 					mainPersonagem = personagemController.cadastraPersonagem(novoPersonagem);
 					JOptionPane.showMessageDialog(null, "Personagem cadastrado com sucesso!");
-					PainelPrincipal painelPrincipal = new PainelPrincipal();
 					setContentPane(painelPrincipal);
 					revalidate();
 				}catch(CampoInvalidoException | personagemMaximosException exception) {
@@ -163,10 +180,7 @@ public class MenuPrincipal extends JFrame {
 		getContentPane().add(btnNovoSave, "5, 8, left, top");
 	}
 	
-		public void limparTela(){
-			
-		}
-	}
+}
 
 
 

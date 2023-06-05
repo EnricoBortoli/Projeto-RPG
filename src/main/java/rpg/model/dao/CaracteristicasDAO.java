@@ -12,7 +12,6 @@ import rpg.model.vo.ClasseVO;
 import rpg.model.vo.EquipamentoVO;
 import rpg.model.vo.PoderVO;
 
-
 public class CaracteristicasDAO {
 
 		
@@ -157,4 +156,33 @@ public class CaracteristicasDAO {
 	    }
 	    return retorno;
 }
+
+	public ClasseVO classePorPersonagem(int cdclasse) {
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+		ClasseVO classe = new ClasseVO();
+		
+		String query = "SELECT CDCLASSE, NOME, DESCRICAO, DANOMOD, VIDAMOD "
+				+ "FROM CLASSE WHERE CDCLASSE = " + cdclasse;
+		try {
+			resultado = stmt.executeQuery(query);
+			while(resultado.next()) {
+				classe.setCdClasse(Integer.parseInt(resultado.getString(1)));
+				classe.setNome(resultado.getString(2));
+				classe.setDescricao(resultado.getString(3));
+				classe.setDanoMod(Integer.parseInt(resultado.getString(4)));
+				classe.setVidaMod(Integer.parseInt(resultado.getString(5)));
+				
+			}
+		} catch (Exception e) {
+			System.out.println("Erro ao executar a query do método consultarTodasClassesDAO!");
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(resultado);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		return classe;
+	}
 }

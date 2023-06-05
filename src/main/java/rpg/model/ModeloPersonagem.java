@@ -1,4 +1,4 @@
-package rpg.util;
+package rpg.model;
 
 	public abstract class ModeloPersonagem {
 	

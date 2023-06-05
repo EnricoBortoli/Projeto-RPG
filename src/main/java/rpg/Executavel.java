@@ -4,7 +4,7 @@ import rpg.view.*;
 public class Executavel {
 
 	public static void main(String[] args) {
-		MenuPrincipal menu = new MenuPrincipal();
+		FramePrincipal menu = new FramePrincipal();
 		menu.setVisible(true);
 	}
 }

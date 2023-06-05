@@ -2,7 +2,7 @@ package rpg.model.vo;
 
 import java.util.ArrayList;
 
-import rpg.util.ModeloPersonagem;
+import rpg.model.ModeloPersonagem;
 
 public class PersonagemVO extends ModeloPersonagem {
 	
@@ -65,5 +65,11 @@ public class PersonagemVO extends ModeloPersonagem {
 	public void setPoderesDoPersonagem(ArrayList<PoderVO> poderesDoPersonagem) {
 		this.poderesDoPersonagem = poderesDoPersonagem;
 	}
+
+	@Override
+	public String toString() {
+		return "Nome: " + getNome() + " - Classe: " + classe.getNome();
+	}
+	
 	
 }

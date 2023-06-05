@@ -1,5 +1,7 @@
 package rpg.controller;
 
+import java.util.ArrayList;
+
 import rpg.model.bo.PersonagemBO;
 import rpg.model.exception.CampoInvalidoException;
 import rpg.model.exception.personagemMaximosException;
@@ -34,6 +36,12 @@ public class PersonagemController {
 		}
 		
 		return personagemBO.cadastrarPersonagemBO(personagemMain);
+	}
+
+	public ArrayList<PersonagemVO> consultarTodosPersonagens() {
+		ArrayList<PersonagemVO> listaPersonagens = new ArrayList<PersonagemVO>();
+		listaPersonagens = personagemBO.consultarTodosPersonagens();
+		return listaPersonagens;
 	}
 	
 }

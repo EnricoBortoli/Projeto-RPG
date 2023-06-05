@@ -1,6 +1,7 @@
 package rpg.model.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 import rpg.model.vo.EquipamentoVO;
 import rpg.model.vo.PoderVO;
+import rpg.model.vo.ClasseVO;
 import rpg.model.vo.PersonagemVO;
 import rpg.model.dao.Banco;
 
@@ -75,6 +77,38 @@ public class PersonagemDAO {
 	        Banco.closeConnection(conn);
 	    }
 	    return retorno;
+	}
+
+
+	public ArrayList<PersonagemVO> consultarTodosPersonagens() {
+		String sql = " SELECT * FROM PERSONAGEM ";
+		
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		ArrayList<PersonagemVO> listaPersonagens = new ArrayList<PersonagemVO>();
+		
+		try {
+			ResultSet result = prepStmt.executeQuery();
+			
+			while(result.next()){
+				PersonagemVO personagens = new PersonagemVO();
+				CaracteristicasDAO classeDAO = new CaracteristicasDAO();
+				ClasseVO classe = new ClasseVO();
+				
+				personagens.setCdPersonagem(result.getInt("CDPERSONAGEM"));
+				personagens.setNome(result.getString("NOME"));
+				personagens.setDano(result.getInt("DANO"));
+				personagens.setVida(result.getInt("VIDA"));
+				personagens.setExpAtual(result.getInt("EXPATUAL"));
+				classe = classeDAO.classePorPersonagem(result.getInt("CDCLASSE"));
+				personagens.setClasse(classe);
+				
+				listaPersonagens.add(personagens);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro listar todos os personagens. Causa: \n:" + e.getCause());
+		}
+		return listaPersonagens;
 	}
 }
 
