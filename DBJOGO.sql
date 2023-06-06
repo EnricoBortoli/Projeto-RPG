@@ -95,6 +95,8 @@ INSERT INTO PODER (NOME, DESCRICAO, BONUS, CDCLASSE)
 INSERT INTO PODER (NOME, DESCRICAO, BONUS, CDCLASSE) 
 	VALUES ("Toque Chocante", "Suas mãos se carregam com energia, descarregando ao toque: +40 pontos de dano no proximo ataque",40, 2);
     
+
+    
 SELECT * FROM CLASSE;
 SELECT * FROM PODER;
 SELECT * FROM EQUIPAMENTO;

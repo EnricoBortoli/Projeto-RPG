@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import rpg.model.vo.ClasseVO;
 import rpg.model.vo.EquipamentoVO;
 import rpg.model.vo.PoderVO;
+import rpg.model.vo.RegiaoVO;
 
 public class CaracteristicasDAO {
 
@@ -184,5 +185,34 @@ public class CaracteristicasDAO {
 			Banco.closeConnection(conn);
 		}
 		return classe;
+	}
+
+	public ArrayList<RegiaoVO> consultaRegioesDAO() {
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+		ArrayList<RegiaoVO> listaRegioes = new ArrayList<RegiaoVO>();
+		
+		String query = "SELECT * FROM REGIAO";
+		
+		try {
+			resultado = stmt.executeQuery(query);
+			while(resultado.next()) {
+				RegiaoVO regiao = new RegiaoVO();
+				regiao.setCdRegiao(Integer.parseInt(resultado.getString(1)));
+				regiao.setNome(resultado.getString(2));
+				regiao.setDescricao(resultado.getString(3));
+				listaRegioes.add(regiao);
+			}
+		} catch (Exception e) {
+			System.out.println("Erro ao executar a query do método consultaRegioesDAO!");
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(resultado);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		
+		return listaRegioes;
 	}
 }
